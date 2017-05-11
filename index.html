@@ -106,7 +106,7 @@
         <h1>Redux & WebSockets</h1>
 
         <div class="center">
-            <p><img src='images/redux.png'/></p>
+            <p><img style="background-color: white; padding:20px;" src='images/redux.png'/></p>
             <p><img src='images/websockets-logo.png'/></p>
         </div>
         <div class="notes">
@@ -124,6 +124,7 @@
             <div class="substep" style="display: inline-block">Java</div>
             <div class="substep" style="display: inline-block">, C#</div>
             <div class="substep" style="display: inline-block">, More Java</div>
+            <div class="substep" style="display: inline-block">, More C#</div>
             <div class="substep" style="display: inline-block">, JavaScript</div>
         </div>
         <br/>
@@ -201,7 +202,7 @@
                     restrictions on how and when updates can happen
                 </li>
                 <li>That sounds a bit complicated, So lets simplify to an analogy that's easy for everyone to
-                    understand
+                    understand, I think we can all agree that redux sounds a bit like...
                 </li>
             </ul>
         </div>
@@ -209,38 +210,48 @@
 
     <div class="step slide" data-rel-x="1500" data-rel-y="0">
         <div>
+            <p>Three ducks?</p>
             <p><img style="width: 500px" src="images/ducks.jpg"/></p>
         </div>
         <p class="substep">Coincidentally, redux has 3 core principles</p>
 
         <div class="notes">
             <ul>
-                <li>Step 1, I think we can all agree that redux kind of sounds like 3 ducks</li>
                 <li>Coincidentally, redux has 3 core principles</li>
             </ul>
         </div>
     </div>
 
     <div class="step slide" data-rel-x="1500" data-rel-y="0">
-        <h1>THe three ducks of redux</h1>
+
         <h3><img class="icon" src="images/duckIcon.ico"/>Single source of truth</h3>
         <br/>
         <h3 class="substep"><img class="icon" src="images/duckIcon.ico"/>State is read-only</h3>
         <br/>
         <h3 class="substep"><img class="icon" src="images/duckIcon.ico"/>Changes are made with pure functions</h3>
 
+
+        <h2 class="substep">The three ducks of redux</h2>
+
         <div class="notes">
             <ul>
-                <li>Which we will refer to as the three ducks of redux</li>
-                <li>First duck: single source of truth.</li>
+
+                <li>First: single source of truth.</li>
                 <li>The state of your whole application is stored in an object tree within a single store.</li>
-                <li>Makes it easier to create universal apps, your state can be serialized and hydrated into the client
-                    easily
+                <li>Your state can be serialized easily. THis makes it easier to create universal apps, serialize your
+                    state and
+                    and hydrated into the client easily.
                 </li>
                 <li>A single state makes it easier to debug or inspect your state</li>
-                <li>2nd duck: State is read-only</li>
-                <li>The only way to change the state is to emit an action, an object describing what happened.</li>
-
+                <li>2nd: State is read-only</li>
+                <li>The only way to change the state is to emit an action, an plain javascript object describing what
+                    happened.
+                </li>
+                <li>3rd: Changes are made with pure functions</li>
+                <li>To specify how the state tree is transformed by our actions, we write state reducers as pure
+                    functions.
+                </li>
+                <li>We will refer to these as the three ducks of redux</li>
             </ul>
         </div>
     </div>
@@ -248,52 +259,43 @@
 
     <div class="step slide" data-rel-x="1500" data-rel-y="0">
         <ul>
-            <h1>What is redux?</h1>
-            <br/>
-            <p>Predictable state management using <strong>actions</strong> and <strong>reducers</strong>
-            </p>
-        </ul>
-
-        <div class="notes">
-            <ul>
-                <li>So what is redux?</li>
-            </ul>
-        </div>
-    </div>
-
-
-    <div class="step slide" data-rel-x="1500" data-rel-y="0">
-        <ul>
-            <h2>Actions?</h2>
+            <h2>Actions</h2>
             <div>
                 <p>Plain JS object describing a change to the state</p>
                 <pre><code>{ type: 'ADD_TODO', text: 'Go to swimming pool' }
 { type: 'TOGGLE_TODO', index: 1 }
 { type: 'SET_VISIBILITY_FILTER', filter: 'SHOW_ALL' }</code></pre>
             </div>
-            <p>Does not describe <strong>how</strong> to change the state</p>
+            <p>...but not describing <strong>how</strong> to change the state</p>
         </ul>
 
         <div class="notes">
             <ul>
-                <li>Actions are plain old JS objects</li>
+                <li>So we emit actions, as plain javascript objects, describing the change we want to make to our
+                    state
+                </li>
                 <li>Describe WHAT is changing, but not how to change it</li>
-                <li>Completely serializable</li>
+                <li>The only mandatory field on and action is a type field, which needs to be string</li>
+                <li>Our actions completely serializable, this is important for later</li>
             </ul>
         </div>
     </div>
 
     <div class="step slide" data-rel-x="1500" data-rel-y="0">
         <ul>
-            <h2>Reducers?</h2>
+            <h2>Reducers</h2>
             <p>
                 A <strong>pure</strong> function that take the <strong>previous state</strong> and an
                 <strong>action</strong>
                 and returns a <strong>new state</strong>
             </p>
-            <pre><code style="font-size: 30px">function myReducer(state = [], action) {
-    // do some stuff
-    return newState;
+            <pre><code style="font-size: 26px">function myReducer(state = [], action) {
+    switch(action.type) {
+        case "ADD_TODO":
+            return { /* ... */ }
+        default:
+            return state;
+    }
 }</code></pre>
         </ul>
 
@@ -301,349 +303,84 @@
             <ul>
                 <li>A reducer if a PURE function that takes in previous state and an action, and returns a new state.
                 </li>
+                <li>Every action will go through every reducer</li>
+                <li>If we want a reducer to respond to a particular type of action, we make a copy of the state,
+                    modify the copy, and return it as our new state. Remember duck 2, our state is completely read only.
+                </li>
+                <li>If this reducer shouldn't respond to a particular action, we add a default case, and just return our
+                    state
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="step slide" data-rel-x="1500" data-rel-y="0">
+        <ul>
+            <h2>The store</h2>
+            <pre><code style="font-size: 24px">import { createStore, combineReducers } from 'redux';
+
+const reducers = combineReducers({
+  reducer1, reducer2
+});
+
+const store = createStore(reducers);
+store.dispatch(
+    { type: 'ADD_TODO', text: 'Draw a duck' }
+);
+
+const unsubscribe = store.subscribe(listener);
+const state = store.getState();</code></pre>
+        </ul>
+
+        <div class="notes">
+            <ul>
+                <li>We interact with redux via an object called the store</li>
+                <li>The store holds the state, and allows us to access it via the getState() function</li>
+                <li>The store allows us to dispatch actions against it via the dispatch function</li>
+                <li>The store allows us to register listeners against it via the subscribe function.
+                These listeners will be called every time, and action is dispatched against our store</li>
             </ul>
         </div>
     </div>
 
 
     <div class="step slide">
-        <h1>A slide with text</h1>
-        <p>This slide has a few paragraphs <br/>(p element) of normal text.</p>
-        <p>Personally I like centered or even justified text, as it looks less boring. This can of course be set in <a
-                href="css/classic-slides.css">the css file</a>.</p>
-        <p>I really like the style on links in these presentations. I modified the border to be beveled, but it's mostly
-            from <a href="http://henrikingo.github.io/impress.js/">@bartaz' original demo</a>. <a
-                    href="https://twitter.com/bartaz">@bartaz</a> is the creator of impress.js.</p>
+        <h2>Reacting to state changes</h2>
+            <ul>
+                <li>We could add listeners to our state, and get values via <code>store.getState()</code> every time
+                    our state changes</li>
+                <li>More likely to use existing bindings like <code>react-redux</code></li>
+            </ul>
 
-        <div class="notes">
-            In this slide, we don't even specify the relative position, rather
-            that too is inherited. So this slide will again be 1000px to the
-            right of the previous one.
-        </div>
+            <div class="notes">
+                <ul>
+                    <li>Having a well managed state great, but how do we read data out of it</li>
+                    <li>We could subscriber to state changes, and dig into our state each time it changes and update our UI</li>
+                    <li>But that is a fairly low level API, and we can use existing bindings from libraries like
+                        react-redux to make the state available to our application </li>
+                    <li>Which uses some black magic to make our store available to all child components</li>
+                </ul>
+            </div>
     </div>
 
     <div class="step slide">
-        <h1>Bullet points</h1>
-        <ul>
-            <li>A slide with bullet points. This is the first point.</li>
-            <li>Second point</li>
-            <li>Third point. Under this point we also have some sub-bullets:
-                <ul>
-                    <li>Sub-bullet 1</li>
-                    <li>Sub-bullet 2</li>
-                </ul>
-            </li>
-        </ul>
+        <h2 class="center">Time to get our ducks in a row...</h2>
 
         <div class="notes">
+            Demo redux-demo-1
         </div>
     </div>
 
-    <!--
-        This element introduces rotation.
-        
-        Notation shouldn't be a surprise. We use `data-rotate="30"` attribute, meaning that this
-        element should be rotated by 30 degrees clockwise.        
-    -->
-    <div class="step slide" data-rel-x="1100" data-rel-y="300" data-rotate="30">
-        <h1>A blockquote &amp; image</h1>
-        <img src="images/3476636111_c551295ca4_b.jpg"
-             alt="Mother Teresa holding a newborn baby"
-             class="right"/>
-        <blockquote>
-            Spread love everywhere you go. <br/>Let no one ever come to you without leaving happier.
-            <p style="text-align: right">Mother Teresa</p>
-            <p class="left bottom">
-                <small>Image credit: <a
-                        href="https://www.flickr.com/photos/peta-de-aztlan/3476636111/">Peta_de_Aztlan</a>@Flickr. CC-BY
-                    2.0
-                </small>
-            </p>
-        </blockquote>
+
+    <div class="step slide">
+        <h2>WebSockets</h2>
 
         <div class="notes">
+            Demo redux-demo-1
         </div>
     </div>
 
-    <div class="step slide" data-rel-x="800" data-rel-y="800" data-rotate="60">
-        <h1>More text styles</h1>
-        <p>As usual, use <em>em</em> to emphasize, <br/>
-            <strong>strong</strong> for strong, <u>u</u> for underline,<br/>
-            <strike>strike</strike> for strikethrough and <q>q for inline quotations</q>.</p>
-
-        <p>If you're a software engineer like me, you will often use the
-            <code>&lt;code&gt;</code> tag for monospaced inline text.</p>
-
-        <div class="notes">
-        </div>
-    </div>
-
-    <div class="step slide" data-rel-x="300" data-rel-y="1100" data-rotate="90">
-        <h1>Motion effects 101</h1>
-        <p>Items on the slide can</p>
-        <p class="fly-in fly-out">Fly in</p>
-        <p class="fade-in fade-out" style="transition-delay: 2s">Fade in</p>
-        <p class="zoom-in zoom-out" style="transition-delay: 4s">And zoom in</p>
-
-        <p class="left bottom">
-            <small>...just like in PowerPoint. Yeah, I know I'm being lame, but it was fun to learn to do this in
-                CSS3.
-            </small>
-        </p>
-
-        <div class="notes">
-            <p>This step here doesn't introduce anything new when it comes to data attributes, but you
-                should notice in the demo that some words of this text are being animated.
-                It's a very basic CSS transition that is applied to the elements when this step element is
-                reached.
-            </p>
-            <p>
-                At the very beginning of the presentation all step elements are given the class of `future`.
-                It means that they haven't been visited yet.
-            </p>
-            <p>
-                When the presentation moves to given step `future` is changed to `present` class name.
-                That's how animation on this step works - text moves when the step has `present` class.
-            </p>
-            <p>
-                Finally when the step is left the `present` class is removed from the element and `past`
-                class is added.
-            </p>
-            <p>
-                So basically every step element has one of three classes: `future`, `present` and `past`.
-                Only one current step has the `present` class.
-            </p>
-        </div>
-    </div>
-
-    <div id="addons" class="step slide title" data-rel-x="-300" data-rel-y="1100" data-rotate="120">
-        <h2>Add-ons</h2>
-        <div class="notes">
-            <p>This version of impress.js includes several add-ons, striving to make this a
-                full featured presentation app.</p>
-        </div>
-    </div>
-
-    <div class="step slide" data-rel-x="-800" data-rel-y="800" data-rotate="150" data-autoplay="3">
-        <h1>Impress.js plugins</h1>
-        <ul>
-            <li>A new <a href="https://github.com/henrikingo/impress.js/blob/myfork/src/plugins/README.md">plugin
-                framework</a> allows for rich extensibility,
-                without bloating the core rendering library.
-                <ul>
-                    <li class="substep">Press 'P' to open a presenter console.</li>
-                    <li class="substep">When you move the mouse, navigation controls are visible on your bottom left
-                    </li>
-                    <li class="substep">Autoplay makes the slides advance after a timeout</li>
-                    <li class="substep">Relative positioning plugin is often a more convenient way to position your
-                        slides when editing. (<a
-                                href="https://github.com/henrikingo/impress.js/blob/myfork/examples/classic-slides/index.html">See
-                            html for this presentation.</a>)
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <div class="notes">
-            <p>This presentation also uses speaker notes. They are not visible in the presentation, but shown in the
-                impress console.</p>
-
-            <p>If you pressed P only now, this is the first time you see these notes. In fact, there has been notes on
-                preceding slides as well.
-                You can use the navigation controls at the bottom of the impress console to browse back to them.</p>
-
-            <p>And did you notice how those bullet points appear one by one as you press space/arrow? That's another
-                plugin, called substeps.</p>
-        </div>
-    </div>
-
-    <div class="step slide" data-rel-x="-1100" data-rel-y="300" data-rotate="180">
-        <h1>Highlight.js</h1>
-        <pre><code>
-        // `init` API function that initializes (and runs) the presentation.
-        var init = function () {
-            if (initialized) { return; }
-            execPreInitPlugins();
-            
-            // First we set up the viewport for mobile devices.
-            // For some reason iPad goes nuts when it is not done properly.
-            var meta = $("meta[name='viewport']") || document.createElement("meta");
-            meta.content = "width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no";
-            if (meta.parentNode !== document.head) {
-                meta.name = 'viewport';
-                document.head.appendChild(meta);
-            }        
-        </code></pre>
-        <div class="notes">
-            <p>The Highlight.js library provides really nice color coding of source code.
-                It automatically applies to any code inside a &lt;pre&gt;&lt;code&gt; element.</p>
-            <p>Highlight.js is found under the <a href="https://github.com/henrikingo/impress.js/tree/myfork/extras">extras/</a>
-                directory, since it is an independent third party plugin, not really an impress.js plugin. You have
-                to include it via it's own &lt;link&gt; and &lt;script&gt; tags.</p>
-        </div>
-    </div>
-
-    <div class="step slide" data-rel-x="-1100" data-rel-y="-300" data-rotate="210">
-        <h1>Mermaid.js</h1>
-        <div class="mermaid">
-            %% This is a comment in mermaid markup
-            graph LR
-            A(Support for<br/>diagrams)
-            B[Provided by<br/>mermaid.js]
-            C{Already<br/>know<br/>mermaid?}
-            D(<a href=&quot;http://knsv.github.io/mermaid/index.html#usage&quot;>Tutorial</a>)
-            E(Great, hope you enjoy!)
-            A-->B
-            B-->C
-            C--No-->D
-            C--Yes-->E
-            classDef startEnd fill:#fcc,stroke:#353,stroke-width:2px;
-            class A,D,E startEnd;
-        </div>
-
-        <h1><a href="http://docs.mathjax.org/en/latest/start.html">MathJax.js</a></h1>
-        <p>Use \(\LaTeX\), MathML or AsciiMath to properly show mathematical formula.</p>
-        <div class="notes">
-            Mermaid.js, likewise in a href="https://github.com/henrikingo/impress.js/tree/myfork/extras">extras/</a>
-            directory, draws SVG diagrams from a MarkDown-like syntax. To learn
-            more about it <a href="http://knsv.github.io/mermaid/index.html#usage">read the fine manual</a>.
-        </div>
-    </div>
-
-    <div id="markdown" class="step slide markdown" data-rel-x="-800" data-rel-y="-800" data-rotate="240">
-        # Markdown.js
-
-        * [Markdown.js](https://github.com/evilstreak/markdown-js) integration: for authors in a hurry!
-        * ...or lazy ;-)
-        * Jot down bullet points in *Markdown*
-        * ...have it automatically converted to HTML
-        * Markdown is converted into a presentation client side, in the browser. This is unlike
-        existing tools like [Hovercraft](https://github.com/regebro/hovercraft) and
-        [markdown-impress](http://binbinliao.com/markdown-impress/) where you generate a new
-        html file on the command line.
-        * [A more advanced Markdown presentation is here.](../markdown/)
-    </div>
-
-    <div id="acme" class="step slide" data-rel-x="-300" data-rel-y="-1100" data-rotate="270">
-        <ul>
-            <li>Remember, in <em>impress.js</em> the full power of HTML5, CSS3 &amp; JavaScript is always at your
-                fingertips!
-            </li>
-            <li>For example, you can use tables, forms, or dynamic charts as you would on any web page:</li>
-        </ul>
-        <h2>Acme Inc Quarterly Profits</h2>
-
-        <!-- Improvised bar graph of divs, to avoid copying something like NVD3 into the repo. -->
-        <div id="acme-graph">
-            <div id="acme-graph-bars">
-                <div id="acme-graph-q1"></div>
-                <div id="acme-graph-q2"></div>
-                <div id="acme-graph-q3"></div>
-                <div id="acme-graph-q4"></div>
-            </div>
-            <div id="acme-graph-bottom"></div>
-        </div>
-
-        <table border="1">
-            <tr>
-                <td>Q1</td>
-                <td id="acme-q1">234€</td>
-            </tr>
-            <tr>
-                <td>Q2</td>
-                <td id="acme-q2">255€</td>
-            </tr>
-            <tr>
-                <td>Q3</td>
-                <td><input id="acme-q3" size="5" oninput="acmeDrawGraph();"/>€
-                    <small>(insert here)</small>
-                </td>
-            </tr>
-            <tr>
-                <td>Q4</td>
-                <td><input id="acme-q4" size="5" oninput="acmeDrawGraph();"/>€</td>
-            </tr>
-        </table>
-        <div class="notes">
-        </div>
-    </div>
-    <script type="text/javascript">
-      var acmeDrawGraph = function () {
-        var profits = {};
-
-        // Q1-Q2: get innerHTML, remove €
-        var value = document.getElementById('acme-q1').innerHTML;
-        if (value[value.length - 1] == "€") value = value.substring(0, value.length - 1);
-        profits['q1'] = value;
-        var value = document.getElementById('acme-q2').innerHTML;
-        if (value[value.length - 1] == "€") value = value.substring(0, value.length - 1);
-        profits['q2'] = value;
-
-        // Q3-Q4: get input.value
-        profits['q3'] = document.getElementById('acme-q3').value;
-        profits['q4'] = document.getElementById('acme-q4').value;
-
-        // Convert all to numeric value, and remember max value for scaling purposes.
-        var max = profits['q1'];
-        for (var q in profits) {
-          profits[q] = isNaN(profits[q]) ? 0 : Number(profits[q]);
-          if (profits[q] > max) {
-            max = profits[q];
-          }
-        }
-
-        // Draw the bar graph
-        for (var q in profits) {
-          var h = 200 * profits[q] / max;
-          var div = document.getElementById('acme-graph-' + q);
-          div.style = 'height: ' + h + 'px';
-        }
-      };
-      // This draws the first 2 bars during page load
-      acmeDrawGraph();
-    </script>
-
-    <!--
-        This step also sets a custom data-transition-duration. All of the above steps used the value set
-        in the root div#impress element, but it is also allowed to set it for each step. Since transitioning
-        to this step will rotate twice around it's axis, we give the transition a bit more time here.
-    -->
-    <div id="moreinfo" class="step slide" data-x="2020" data-y="700" data-rotate="720" data-transition-duration="2000">
-        <h1>More info</h1>
-        <ul>
-            <li><a href="https://github.com/henrikingo/impress.js/blob/myfork/DOCUMENTATION.md">DOCUMENTATION.md</a> is
-                the API reference.
-            </li>
-            <li><a href="https://github.com/henrikingo/impress.js/blob/myfork/examples/classic-slides/index.html">Source
-                of this presentation itself</a> is commented
-            </li>
-            <li><a href="http://henrikingo.github.io/impress.js/">Advanced Impress.js demo</a> by <a
-                    href="http://twitter.com/bartaz">@bartaz</a>
-                <ul>
-                    <li>Again, the <a href="http://github.com/henrikingo/impress.js/blob/myfork/index.html">html</a>
-                        and <a href="https://github.com/henrikingo/impress.js/blob/myfork/css/impress-demo.css">css</a>
-                        source is well commented.
-                    </li>
-                </ul>
-            </li>
-            <li>More examples and demos:
-                <ul>
-                    <li><a href="https://github.com/henrikingo/impress.js/tree/myfork/examples">examples/</a> in this
-                        repository
-                    </li>
-                    <li><a href="https://github.com/impress/impress.js/wiki/Examples-and-demos">on the impress.js
-                        wiki</a></li>
-                </ul>
-            </li>
-            <li>Check out <a href="https://github.com/henrikingo/impressionist">Impressionist</a>: a 3D GUI to create
-                impress.js presentations
-            </li>
-        </ul>
-
-        <div class="notes">
-        </div>
-    </div>
-
-    <!-- This last, empty "slide" is set to be very large using the data-scale attribute, 
+    <!-- This last, empty "slide" is set to be very large using the data-scale attribute,
          so that it covers all the other slides you just saw. 
          It's a common way of zooming out at the end, to show the whole presentation.
          In CSS, we set pointer-events:none to make this slide non-clickable. 
