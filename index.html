@@ -137,7 +137,7 @@
         <div class="notes">
             <ul>
                 <li>My name is Richard, these are my contact details.</li>
-                <li>I went through a journey that many JavaScript devs went through.</li>
+                <li>Software journey that many JavaScript devs went through.</li>
                 <li>work for BNRY, interesting tagline</li>
                 <li>T-Shirts for RubyFuza - #bullshit and "no bullshit no"</li>
             </ul>
@@ -156,12 +156,10 @@
 
         <div class="notes">
             <ul>
-                <li>So what are we going to be talking about today?</li>
-                <li>Why redux</li>
+                <li>Why redux, and how, quick demo</li>
                 <li>Why Websockets</li>
                 <li>Why on earth would you present a talk on these seemingly unrelated technologies</li>
-                <li>Hopefully today I can show you how you can combine, these, to make your we apps super awesome and
-                    super responsive
+                <li>Hopefully show how you can combine these libraries to make your web apps super awesome
                 </li>
             </ul>
         </div>
@@ -210,7 +208,7 @@
 
     <div class="step slide" data-rel-x="1500" data-rel-y="0">
         <div>
-            <p>Three ducks?</p>
+            <p>Three ducks</p>
             <p><img style="width: 500px" src="images/ducks.jpg"/></p>
         </div>
         <p class="substep">Coincidentally, redux has 3 core principles</p>
@@ -240,16 +238,15 @@
             <ul>
 
                 <li>First: single source of truth.</li>
-                <li>The state of your whole application is stored in an object tree within a single store.</li>
-                <li>Your state can be serialized easily. This makes it easier to create universal apps, serialize your
-                    state and and hydrate it into the client easily.
+                <li>The state of your whole application single object tree. Not split. access state, access whole tree</li>
+                <li>why? serialized easily. universal apps, easy to hydrate your state on client.
                 </li>
                 <li>A single state makes it easier to debug or inspect your state</li>
                 <li>2nd: State is read-only</li>
                 <li>The only way to change the state is to emit an action, which is a plain javascript object describing the change.
                 </li>
                 <li>3rd: Changes to the state are made with pure function. Who knows what pure functions are?
-                    The results is determined purely on the put parameters, without any side effects.</li>
+                    The results is determined purely on the input parameters, without any side effects.</li>
                 <li>To specify how the state tree is transformed by our actions, we write 'state reducers' as pure
                     functions.
                 </li>
@@ -306,12 +303,11 @@
                 <li>A reducer if a PURE function that takes in previous state and an action, and returns a new state.
                 </li>
                 <li>Every action will go through every reducer</li>
-                <li>If we want a reducer to respond to a particular type of action, we make a copy of the state,
-                    modify the copy, and return it as our new state. Remember duck 2, our state is completely read only.
+                <li>Common to put a switch</li>
+                <li>duck 2, our state is completely read only.if we want to make changes to the state, we make a copy,
+                    modify the copy, and return it as our new state.
                 </li>
-                <li>If this reducer shouldn't respond to a particular action, we add a default case, and just return our
-                    state
-                </li>
+                <li>default case, and just return our state</li>
             </ul>
         </div>
     </div>
@@ -319,7 +315,7 @@
     <div class="step slide" data-rel-x="1500" data-rel-y="0">
         <ul>
             <h2>The store</h2>
-            <pre><code style="font-size: 24px">import { createStore, combineReducers } from 'redux';
+            <pre><code style="font-size: 23px">import { createStore, combineReducers } from 'redux';
 
 const reducers = combineReducers({
   reducer1, reducer2
@@ -336,10 +332,11 @@ const state = store.getState();</code></pre>
 
         <div class="notes">
             <ul>
-                <li>We interact with redux via an object called the store</li>
-                <li>The store holds the state, and allows us to access it via the getState() function</li>
-                <li>The store allows us to dispatch actions against it via the dispatch function</li>
-                <li>The store allows us to register listeners against it via the subscribe function.
+                <li>We interact with redux state via the store</li>
+                <li>When we create we pass the store about all the reducers</li>
+                <li>holds the state, access it via the getState() function</li>
+                <li>dispatch actions against it via the dispatch function</li>
+                <li>register listeners against it via the subscribe function.
                 These listeners will be called every time, and action is dispatched against our store</li>
             </ul>
         </div>
@@ -377,7 +374,7 @@ const state = store.getState();</code></pre>
     <div class="step slide">
         <h2>WebSockets</h2>
         <ul>
-            <li>2 way communication between browser and server</li>
+            <li>Two way communication between browser and server</li>
             <li>Lower overhead than http</li>
             <li>Uses same ports as http (80 and 443 for TLS)</li>
             <li>Widely supported*</li>
@@ -390,8 +387,8 @@ const state = store.getState();</code></pre>
             <ul>
                 <li>So on to part 2, what are websockets</li>
                 <li>Websockets allow 2 way TCP communicattion between the client (in this case the browser) and the server</li>
-                <li>WebSockets work on the same ports at http, meaning we wont have to open up any additional ports in out firewall</li>
                 <li>Importantly, Websockets allow us to send any serializable data between the client and the server. Like a json payload. Or a redux action. Or your entire redux state tree. See where Im going with this?</li>
+                <li>same ports at http, meaning we wont have to open up any additional ports in out firewall</li>
                 <li>Websockets are also pretty widely supported, roughly 94% of browsers in use today support them</li>
             </ul>
         </div>
@@ -413,13 +410,11 @@ io.on('connection', (client) => {
             <ul>
                 <li>Socket.io is library that makes use of websockets, and makes it really easy for us to get
                     up and running in just a few lines of code</li>
-                <li>To keep things easy we will use use node for our server side</li>
-                <li>SocketIO allows us to augments an express server, allowing it to receive websocket connections</li>
+                <li>To keep things easy we will use use node and express for our server side</li>
                 <li>So lets see how we configure Socket.io on our webserver</li>
-                <li>Create an express server, create an http server from our express app, and bind our socket.io instance to it.</li>
-                <li>from there we can look for 'connection' events, and pass through a function that will be called
+                <li>Create an express app, create an http server from our express app, and bind our socket.io instance to it.</li>
+                <li>now we can look for 'connection' events, and pass through a function that will be called
                     with a reference to the client that just connected. So this will be called every time a client connects </li>
-                <li>We can send </li>
             </ul>
         </div>
     </div>
