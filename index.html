@@ -117,8 +117,8 @@
     <div class="step slide title" data-rel-x="1500" data-rel-y="0">
 
         <p style="font-size: 40px">Richard Young</p>
-        <p><strong>Github:</strong> richardyoung00</p>
-        <p><strong>Twitter:</strong> @richardyoung00</p>
+        <p><img style="width: 60px; vertical-align: middle" src='images/github.png' /> richardyoung00</p>
+        <p><img style="width: 60px; vertical-align: middle" src='images/twitter.jpg' /> @richardyoung00</p>
 
         <div style="text-align: center">
             <div class="substep" style="display: inline-block">Java</div>
@@ -158,9 +158,9 @@
             <ul>
                 <li>Why redux, and how, quick demo</li>
                 <li>Why Websockets</li>
-                <li>Why on earth would you present a talk on these seemingly unrelated technologies</li>
-                <li>Hopefully show how you can combine these libraries to make your web apps super awesome
-                </li>
+                <li>Why and how combine seemingly unrelated technologies</li>
+                <li>Hopefully show how you can use this to make your web apps super awesome</li>
+                <li>Who has worked with redux before? Or Flux?</li>
             </ul>
         </div>
     </div>
@@ -177,9 +177,8 @@
 
         <div class="notes">
             <ul>
-                <li>Who has worked with redux before? Or Flux?</li>
                 <li>Managing state is hard, esp in bigger apps</li>
-                <li>If you have worked on a bigger app, you know the struggle of figuring out what is in your state</li>
+                <li>bigger app, you know the struggle of figuring out what is in your state, when it get updated</li>
                 <li>Redux helps you manage your state</li>
                 <li>Redux makes state management predictable</li>
                 <li>...but not necessarily easy</li>
@@ -238,17 +237,16 @@
             <ul>
 
                 <li>First: single source of truth.</li>
-                <li>The state of your whole application single object tree. Not split. access state, access whole tree</li>
+                <li>state application single object tree. Not split. access state, access whole tree</li>
                 <li>why? serialized easily. universal apps, easy to hydrate your state on client.
                 </li>
                 <li>A single state makes it easier to debug or inspect your state</li>
                 <li>2nd: State is read-only</li>
-                <li>The only way to change the state is to emit an action, which is a plain javascript object describing the change.
+                <li>Change emit an action, plain javascript object describing the change.
                 </li>
-                <li>3rd: Changes to the state are made with pure function. Who knows what pure functions are?
+                <li>3rd: Changes made with pure function. What pure functions are?
                     The results is determined purely on the input parameters, without any side effects.</li>
-                <li>To specify how the state tree is transformed by our actions, we write 'state reducers' as pure
-                    functions.
+                <li>We write 'state reducers' as pure functions.
                 </li>
                 <li>Together we will refer to these as the three ducks of redux</li>
             </ul>
@@ -261,7 +259,7 @@
             <h2>Actions</h2>
             <div>
                 <p>Plain JS object describing a change to the state</p>
-                <pre><code>{ type: 'ADD_TODO', text: 'Go to swimming pool' }
+                <pre><code>{ type: 'ADD_TODO', text: 'Draw a duck' }
 { type: 'TOGGLE_TODO', index: 1 }
 { type: 'SET_VISIBILITY_FILTER', filter: 'SHOW_ALL' }</code></pre>
             </div>
@@ -332,7 +330,7 @@ const state = store.getState();</code></pre>
 
         <div class="notes">
             <ul>
-                <li>We interact with redux state via the store</li>
+                <li>interact redux via store -> holds state</li>
                 <li>When we create we pass the store about all the reducers</li>
                 <li>holds the state, access it via the getState() function</li>
                 <li>dispatch actions against it via the dispatch function</li>
@@ -385,9 +383,10 @@ const state = store.getState();</code></pre>
 
         <div class="notes">
             <ul>
-                <li>So on to part 2, what are websockets</li>
-                <li>Websockets allow 2 way TCP communicattion between the client (in this case the browser) and the server</li>
-                <li>Importantly, Websockets allow us to send any serializable data between the client and the server. Like a json payload. Or a redux action. Or your entire redux state tree. See where Im going with this?</li>
+                <li>now we knwo reux, So on to part 2, what are websockets</li>
+                <li>2 way TCP comm between the client (in this case the browser) and the server</li>
+                <li>send any serializable data between the client and the server. Like a json payload. Or a redux action. Or your entire redux state tree. See where Im going with this?</li>
+                <li>lower overhead</li>
                 <li>same ports at http, meaning we wont have to open up any additional ports in out firewall</li>
                 <li>Websockets are also pretty widely supported, roughly 94% of browsers in use today support them</li>
             </ul>
@@ -477,6 +476,19 @@ socket.on('disconnect',
 
     <div class="notes">
         On to the next demo
+    </div>
+</div>
+
+
+<div class="step slide">
+    <h2>Thank You</h2>
+    <p><img style="width: 60px; vertical-align: middle" src='images/github.png' /> richardyoung00</p>
+    <p><img style="width: 60px; vertical-align: middle" src='images/twitter.jpg' /> @richardyoung00</p>
+
+    <div class="notes">
+        <ul>
+            <li></li>
+        </ul>
     </div>
 </div>
 
