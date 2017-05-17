@@ -324,7 +324,6 @@ store.dispatch(
     { type: 'ADD_TODO', text: 'Draw a duck' }
 );
 
-const unsubscribe = store.subscribe(listener);
 const state = store.getState();</code></pre>
         </ul>
 
@@ -334,30 +333,8 @@ const state = store.getState();</code></pre>
                 <li>When we create we pass the store about all the reducers</li>
                 <li>holds the state, access it via the getState() function</li>
                 <li>dispatch actions against it via the dispatch function</li>
-                <li>register listeners against it via the subscribe function.
-                These listeners will be called every time, and action is dispatched against our store</li>
             </ul>
         </div>
-    </div>
-
-
-    <div class="step slide">
-        <h2>Reacting to state changes</h2>
-            <ul>
-                <li>We could add listeners to our state, and get values via <code>store.getState()</code> every time
-                    our state changes</li>
-                <li>More likely to use existing bindings like <code>react-redux</code></li>
-            </ul>
-
-            <div class="notes">
-                <ul>
-                    <li>Having a well managed state great, but how do we read data out of it</li>
-                    <li>We could subscriber to state changes, and dig into our state each time it changes and update our UI</li>
-                    <li>But that is a fairly low level API, and we can use existing bindings from libraries like
-                        react-redux to make the state available to our application </li>
-                    <li>Which uses some black magic to make our store available to all child components</li>
-                </ul>
-            </div>
     </div>
 
     <div class="step slide">
