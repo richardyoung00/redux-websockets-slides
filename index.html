@@ -130,9 +130,7 @@
         <br/>
         <p><img class="substep" style="width:200px" src='images/bnry.png'/></p>
 
-        <p>
-        <div class="substep" style="text-align: center; font-size: 50px">#NOBULLSHIT</div>
-        </p>
+        <p> <div class="substep" style="text-align: center; font-size: 50px">#NOBULLSHIT</div> </p>
 
         <div class="notes">
             <ul>
@@ -166,14 +164,13 @@
     </div>
 
     <div class="step slide" data-rel-x="1500" data-rel-y="0">
-        <ul>
-            <p>Managing state is hard</p>
-            <p class="substep"><code>console.log(this.state)</code></p>
-            <p class="substep">Redux helps you manage your state</p>
-            <p class="substep">Redux makes state management predictable</p>
-            <p class="substep">...but not necessarily easy</p>
 
-        </ul>
+        <p>Managing state is hard</p>
+        <p class="substep"><code>console.log(this.state)</code></p>
+        <p class="substep">Redux helps you manage your state</p>
+        <p class="substep">Redux makes state management predictable</p>
+        <p class="substep">...but not necessarily easy</p>
+
 
         <div class="notes">
             <ul>
@@ -397,8 +394,7 @@ io.on('connection', (client) => {
 
 <div class="step slide">
         <h2>Server</h2>
-        <pre><code style="font-size: 28px">/* ... */
-io.on('connection', (client) => {
+        <pre><code style="font-size: 28px">io.on('connection', (client) => {
     client.emit('private_message',
             'Welcome, you are now connected');
 
