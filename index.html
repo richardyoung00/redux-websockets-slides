@@ -175,7 +175,7 @@
         <div class="notes">
             <ul>
                 <li>Managing state is hard, esp in bigger apps</li>
-                <li>Big thing in JS in single page apps. More management of state on the client</li>
+                <li>Latest thing in JS is single page apps. More state on the client</li>
                 <li>bigger app, you know the struggle of figuring out what is in your state, when it get updated</li>
                 <li>Redux helps you manage your state</li>
                 <li>Redux makes state management predictable</li>
@@ -268,7 +268,7 @@
                     state
                 </li>
                 <li>Describe WHAT is changing, but not how to change it</li>
-                <li>The only mandatory field on and action is a type field, which needs to be string</li>
+                <li>The only mandatory field on and action is a type field, which needs to be unique</li>
                 <li>Our actions completely serializable, normal javascript objects. This is important for later</li>
             </ul>
         </div>
@@ -298,7 +298,7 @@
 
         <div class="notes">
             <ul>
-                <li>A reducer if a PURE function that takes in previous state and an action, and returns a new state.
+                <li>A reducer is a PURE function that takes in previous state and an action, and returns a new state.
                 </li>
                 <li>Every action will go through every reducer</li>
                 <li>Common to put a switch</li>
@@ -320,6 +320,7 @@ const reducers = combineReducers({
 });
 
 const store = createStore(reducers);
+
 store.dispatch(
     { type: 'ADD_TODO', text: 'Draw a duck' }
 );
@@ -351,6 +352,7 @@ const state = store.getState();</code></pre>
         <ul>
             <li>Two way communication between browser and server</li>
             <li>Lower overhead than http</li>
+            <li>Can transmit text and binary data</li>
             <li>Uses same ports as http (80 and 443 for TLS)</li>
             <li>Widely supported*</li>
         </ul>
@@ -362,10 +364,10 @@ const state = store.getState();</code></pre>
             <ul>
                 <li>now we know redux, So on to part 2, what are websockets</li>
                 <li>2 way TCP comm between the client (in this case the browser) and the server</li>
-                <li>send any serializable data between the client and the server. Like a json payload. Or a redux action. Or your entire redux state tree. See where Im going with this?</li>
                 <li>lower overhead</li>
-                <li>same ports at http, meaning we wont have to open up any additional ports in out firewall</li>
-                <li>Websockets are also pretty widely supported, roughly 94% of browsers in use today support them</li>
+                <li>send any between the client and the server. json payload, redux action, entire redux state tree. See where Im going with this?</li>
+                <li>same ports at http,firewall</li>
+                <li> widely supported, roughly 94% of browsers in use today support them</li>
             </ul>
         </div>
     </div>
@@ -384,13 +386,11 @@ io.on('connection', (client) => {
 
         <div class="notes">
             <ul>
-                <li>Socket.io is library that makes use of websockets, and makes it really easy for us to get
-                    up and running in just a few lines of code</li>
+                <li>Socket.io uses websockets, easy for us to get up and running in just a few lines of code</li>
                 <li>To keep things easy we will use use node and express for our server side</li>
                 <li>So lets see how we configure Socket.io on our webserver</li>
                 <li>Create an express app, create an http server from our express app, and bind our socket.io instance to it.</li>
-                <li>now we can look for 'connection' events, and pass through a function that will be called
-                    with a reference to the client that just connected. So this will be called every time a client connects </li>
+                <li>look for 'connection' events, and pass function with a reference to the client. called every time a client connects </li>
             </ul>
         </div>
     </div>
@@ -413,9 +413,9 @@ io.on('connection', (client) => {
         <div class="notes">
             <ul>
                 <li>Socket.io has a couple of predefined events, such connection and disconnect</li>
-                <li>We can also define our own event types that we can define when we emit a message and when when we listen for messages </li>
-                <li>When a client is connected we can choose to either send a message directly to the client, liek here where we end a welcome message</li>
-                <li>Or we can broadcast a message to all connected clients, for example letting them know that a new user has joined. </li>
+                <li>define our own event types to emit and listen on</li>
+                <li>When a client connects we can choose to either send a message directly to the client</li>
+                <li>Or we can broadcast a message to all connected clients </li>
             </ul>
         </div>
     </div>
@@ -437,11 +437,11 @@ socket.on('disconnect',
 
     <div class="notes">
         <ul>
-            <li>For the client side, we will need to import the client library for socket.io, socket.io-client</li>
-            <li>Instantiate it, and very similar to the server side, we can listen for the connect event (different to the connection event on the server) </li>
+            <li>client library for socket.io, socket.io-client</li>
+            <li>Instantiate it, and very similar to the server side, we can listen for the connect event </li>
             <li>and we can emit data using the emit function. </li>
-            <li>We can t do any peer to peer communication, so anything emitted from the client goes directly to the server</li>
-            <li>Socket.io can do quite a few other cool things, like broadcast to specific user, and create
+            <li>can't do any peer to peer communication, so anything emitted goes directly to the server</li>
+            <li>Socket.io cool things, like broadcast to specific user, and create
                 chat rooms for users to join, but we won't be using those features today</li>
         </ul>
     </div>
