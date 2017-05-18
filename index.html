@@ -175,7 +175,7 @@
         <div class="notes">
             <ul>
                 <li>Managing state is hard, esp in bigger apps</li>
-                <li>Big thing in JS in single state apps. More management of state on the client</li>
+                <li>Big thing in JS in single page apps. More management of state on the client</li>
                 <li>bigger app, you know the struggle of figuring out what is in your state, when it get updated</li>
                 <li>Redux helps you manage your state</li>
                 <li>Redux makes state management predictable</li>
@@ -292,6 +292,10 @@
 }</code></pre>
         </ul>
 
+        <div class="substep ">
+            <img style="position: absolute; right: 0px; bottom: 0px" src="./images/duckHead.png">
+        </div>
+
         <div class="notes">
             <ul>
                 <li>A reducer if a PURE function that takes in previous state and an action, and returns a new state.
@@ -356,7 +360,7 @@ const state = store.getState();</code></pre>
 
         <div class="notes">
             <ul>
-                <li>now we knwo reux, So on to part 2, what are websockets</li>
+                <li>now we know redux, So on to part 2, what are websockets</li>
                 <li>2 way TCP comm between the client (in this case the browser) and the server</li>
                 <li>send any serializable data between the client and the server. Like a json payload. Or a redux action. Or your entire redux state tree. See where Im going with this?</li>
                 <li>lower overhead</li>
